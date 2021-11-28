@@ -44,7 +44,21 @@
 
         </div>
     </form>
-
+    <div class="col-md-12 col-lg-12 col-xl-12 justify-content-center">
+  <table border="1" class="table table-bordered table-hover" >
+  <tr>
+      <th>テストタイトル</th><th>単語帳</th><th>正解率(％)</th><th>テスト日時</th>
+  </tr>
+  <tr>
+      {% for row in return_table %}
+      {% for i in row %}
+      <td>{{ i|e }}</td>
+      {% endfor %}
+  </tr>
+      {% endfor %}
+  </table>
+  <br>
+  </div>
 
 
     <div class="accordion" id="accordionExample">

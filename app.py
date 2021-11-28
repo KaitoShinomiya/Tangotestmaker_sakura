@@ -8,7 +8,7 @@ from flask_cors import CORS
 from make_test import make_test
 from server_utils import send_line_notify, number_handling, user_list2html
 from mysql_db import get_bookname_from_MySQL, get_testdf_from_MySQL, register_user_list, get_userlist, get_user_id, \
-    register_user_result, get_booklist
+    register_user_result, get_booklist, check_result_SQL
 
 app = Flask(__name__)
 CORS(app)
@@ -106,9 +106,10 @@ def result_check():
 
         return render_template("result_check.html", select_user=return_html, booklist=return_booklist)
     elif request.method == "POST":
-
+        return_table = check_result_SQL()
         # 期間指定、本の指定、正解率の指定で絞りができるとなお良いと思う。
-        return render_template("result_check.html", select_user=return_html, booklist=return_booklist)
+        return render_template("result_check.html", select_user=return_html, booklist=return_booklist,
+                               return_table=return_table)
 
 
 @app.route("/register_result", methods=["POST"])

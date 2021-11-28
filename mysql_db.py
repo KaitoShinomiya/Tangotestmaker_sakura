@@ -79,7 +79,8 @@ def register_user_result(test_title, score_rate, user_name, which_book, start, e
     conn, cur = connet_MySQL(True)
     query = 'INSERT INTO user_' + user_name + '(test_name,score_percent,test_date,which_book,start,end,how_many,select_or_blank,en_or_jp) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)'
     values = (
-    test_title, score_rate, now.strftime('%Y-%m-%d %H:%M:%S'), which_book, start, end, how_many, sel_or_bla, en_or_jp)
+        test_title, score_rate, now.strftime('%Y-%m-%d %H:%M:%S'), which_book, start, end, how_many, sel_or_bla,
+        en_or_jp)
     cur.execute(query, values)
     close_MySQL(conn, cur, True)
 
@@ -94,6 +95,25 @@ def get_testdf_from_MySQL(db_name):
     close_MySQL(conn, cur)
 
     return rows
+
+
+def check_result_SQL():
+    conn, cur = connet_MySQL(True)
+    query = 'SELECT test_name,which_book,score_percent,test_date from user_else'
+    cur.execute(query)
+    rows = cur.fetchall()
+    close_MySQL(conn, cur)
+    return_list = []
+    for row in rows:
+        row_list = []
+        for i in range(len(row)):
+            if i == 1:
+                row_list.append(get_bookname_from_MySQL(row[i])[1])
+            else:
+                row_list.append(row[i])
+        return_list.append(row_list)
+
+    return return_list
 
 
 def post_test_result(user_id):
