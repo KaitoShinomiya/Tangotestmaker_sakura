@@ -106,7 +106,10 @@ def result_check():
         return render_template("result_check.html", select_user=return_html, booklist=return_booklist)
 
     elif request.method == "POST":
-        return_table = check_result_SQL()
+        user_id, which_book, test_date, correct_rate = int(request.form['send_to']), int(request.form['which_book']), \
+                                                       request.form['test_date'], int(request.form[
+                                                                                          'correct_rate'])
+        return_table = check_result_SQL(user_id, which_book, test_date, correct_rate)
         # 期間指定、本の指定、正解率の指定で絞りができるとなお良いと思う。
         # ここを修正したら完成
         return render_template("result_check.html", select_user=return_html, booklist=return_booklist,

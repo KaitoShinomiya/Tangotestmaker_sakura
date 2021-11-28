@@ -1,4 +1,3 @@
-import zipfile
 import requests
 import os
 from flask import request

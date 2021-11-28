@@ -97,9 +97,13 @@ def get_testdf_from_MySQL(db_name):
     return rows
 
 
-def check_result_SQL():
+def check_result_SQL(user_id, which_book, test_date, correct_rate):
     conn, cur = connet_MySQL(True)
-    query = 'SELECT test_name,which_book,score_percent,test_date from user_else'
+    if not user_id == 0:
+        cur.execute('SELECT name FROM user_list WHERE id=%s', (user_id,))
+        row = cur.fetchall()[0][0]
+    query = 'SELECT test_name,which_book,score_percent,test_date from user_else where correct_rate =<' + str(
+        correct_rate)
     cur.execute(query)
     rows = cur.fetchall()
     close_MySQL(conn, cur)
