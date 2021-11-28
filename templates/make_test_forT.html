@@ -24,34 +24,34 @@
             <input type="text" id="how_many" name="how_many" placeholder="how_many"><br>
         </div>
         <div class="mt-3 d-flex justify-content-center">
-            <select id="select_or_not" name="select_or_not" size="1">
+            <select id="select_or_not" name="select_or_not" size="1" class="form-select w-50">
                 <option selected value="-1">四択か空白か</option>
                 <option value=0>四択</option>
                 <option value=1>空白</option>
             </select><br>
         </div>
         <div class="mt-3 d-flex justify-content-center">
-            <select id="sequence_or_random" name="sequence_or_random" size="1">
+            <select id="sequence_or_random" name="sequence_or_random" size="1" class="form-select w-50">
                 <option selected value="-1">単語帳の順番通りかランダムか</option>
                 <option value=0>順番通り</option>
                 <option value=1>ランダム</option>
             </select><br>
         </div>
         <div class="mt-3 d-flex justify-content-center">
-            <select id="which_lang" name="which_lang" size="1">
+            <select id="which_lang" name="which_lang" size="1" class="form-select w-50">
                 <option selected value="-1">英語か日本語</option>
                 <option value=0>英語</option>
                 <option value=1>日本語</option>
             </select><br>
         </div>
         <div class="mt-3 d-flex justify-content-center">
-            <select id="which_book" name="which_book" size="1">
+            <select id="which_book" name="which_book" size="1" class="form-select w-50">
                 <option selected value="-1">単語帳を選んでください</option>
                 {{ booklist | safe }}
             </select><br>
         </div>
          <div class="mt-3 d-flex justify-content-center">
-            <select id="send_to" name="send_to" size="1">
+            <select id="send_to" name="send_to" size="1" class="form-select w-50">
                 <option selected value=0>LINEでの結果を送信しない</option>
                 <option value=1>1</option>
                 <option value=1>2</option>
@@ -59,13 +59,13 @@
             </select><br>
         </div>
         <div class="mt-3 d-flex justify-content-center">
-            <select id="user" name="user" size="1">
+            <select id="user" name="user" size="1" class="form-select w-50">
                 <option selected value=0>結果を登録しない</option>
                 {{ select_send2 | safe }}
             </select><br>
         </div>
         <div class="mt-3 d-flex justify-content-center">
-            <input type="submit" value="make QR">
+            <input type="submit" value="make QR" class="btn btn-primary active">
 
         </div>
         <br>

@@ -1,4 +1,3 @@
-import zipfile
 import requests
 import os
 from flask import request
@@ -46,6 +45,11 @@ def send_line_notify(message):
     except Exception as e:
         return False
 
+
+def test_label(which_book, start, end, how_many):
+    detail_str = which_book + "  " + str(start) + "番から" + str(end) + "番: " + str(how_many) + "問"
+
+    return detail_str
 
 class Counter:
     counter = 0
