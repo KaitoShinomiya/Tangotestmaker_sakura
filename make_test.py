@@ -1,6 +1,4 @@
 import random
-import json
-from bs4 import BeautifulSoup
 
 
 def make_test(original_list, start, end, how_many, which_lang, is_random, is_select_from_4):
@@ -76,48 +74,6 @@ def select_from_4(selected_list, original_list, origin_df_len, which_lang):
     #         question: 'information',
     #         answers: ['情報', '作る', '食べ物', '走る'],
     #         correct: '情報'
-    #     }, 2: {
-    #         question: 'eat',
-    #         answers: ['食べる', '作る', '走る', '遊ぶ'],
-    #         correct: '食べる'
     #     }
     # };
     return quiz_dict
-
-
-def make_json(test, df, how_many):
-    return_dict = {}
-    for i in range(how_many):
-        temp_dict = {}
-        temp_dict['question'] = test.iloc[i, 0]
-        temp_list = test.iloc[i, 1]
-        temp_list = temp_list.split('・')
-        for j in range(0, 4):
-            temp_list[j] = temp_list[j].replace('(' + str(j + 1) + ') ', '')
-            temp_list[j] = temp_list[j].replace(' ', '')
-        temp_dict['answers'] = temp_list
-        temp_dict['correct'] = df.iloc[i, 1]
-        return_dict[i + 1] = temp_dict
-    return_json = json.dumps(return_dict, ensure_ascii=False)
-
-    return return_json
-
-
-def writer_html(test, df):
-    test.to_html("./tangotest_question.html", encoding='utf_8_sig',
-                 classes=["table", "table-bordered", "table-hover", "col-md-8", "col-lg-8", "col-xl-8"])
-    df.to_html("./tangotest_kaitou.html", encoding='utf_8_sig',
-               classes=["table", "table-bordered", "table-hover", "pagebreak"])
-
-    html_path_list = ["./tangotest_question.html", "tangotest_kaitou.html"]
-    soup_list = []
-    for html_path in html_path_list:
-        with open(html_path) as f:
-            temp = BeautifulSoup(f.read(), 'lxml')
-            soup_list.append(temp)
-    pure_bound_html = ''.join([soup.prettify() for soup in soup_list])
-    bound_html = pure_bound_html.replace('</html>', '')
-    bound_html = bound_html.replace('<html>', '')
-    bound_html = bound_html.replace('<body>', '')
-    bound_html = bound_html.replace('</body>', '')
-    return bound_html

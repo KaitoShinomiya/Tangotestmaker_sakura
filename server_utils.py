@@ -47,6 +47,11 @@ def send_line_notify(message):
         return False
 
 
+def test_label(which_book, start, end, how_many):
+    detail_str = which_book + "  " + str(start) + "番から" + str(end) + "番: " + str(how_many) + "問"
+
+    return detail_str
+
 class Counter:
     counter = 0
 
