@@ -1,0 +1,10 @@
+body {
+  font-size: 60%;
+}
+
+.pagebreak{
+  break-before: page;
+}
+.text_right{
+  text-align: right;
+}

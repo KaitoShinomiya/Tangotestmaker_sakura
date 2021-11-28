@@ -1,0 +1,15 @@
+.idea
+.idea/workspace.xml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/
+__pycache__
+venv
+.DS_Store
+tangotest.html
+tangotest_question.html
+tangotest.iml
+tangotest_kaitou.html
+static/sample_en2sp.csv
+static/images/qrcode.png

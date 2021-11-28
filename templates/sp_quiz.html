@@ -1,0 +1,155 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <div class="main">
+    <div>
+    <h5 id="test_title">{{test_detail}}</h5>
+    </div>
+</div>
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <!-- CSS only -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sp_quiz.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <meta name="theme-color" content="#fafafa">
+
+</head>
+
+<body>
+ <div class="container">
+    <div>
+    </div>
+     <br><br><br>
+    <div class="jumbotron mt-5 mb-5 jumbotron-fluid">
+      <div class="d-flex justify-content-center">
+
+            <div id ="js-question">
+                sample
+            </div>
+
+      </div>
+    </div>
+<br><br>
+    <div id="js-items" class="d-grid gap-3 col-12 mx-auto">
+      <button type="button" id="js-btn-1" class="btn btn-outline-secondary font_size_25">Primary</button>
+      <button type="button" id="js-btn-2" class="btn btn-outline-secondary font_size_25">Primary</button>
+      <button type="button" id="js-btn-3" class="btn btn-outline-secondary font_size_25">Primary</button>
+      <button type="button" id="js-btn-4" class="btn btn-outline-secondary font_size_25">Primary</button>
+
+    </div>
+
+  </div>
+
+  <script>
+      const quiz = {{ js_code | safe }}
+
+
+const $window = window;
+const $doc = document;
+const $question = $doc.getElementById('js-question');
+const $buttons = $doc.querySelectorAll('.btn');
+let url = new URL($window.location.href);
+let params = url.searchParams;
+
+const quizLen = Object.keys(quiz).length;
+let quizCount = 1;
+let score = 0;
+
+const init = () => {
+    console.log(quizLen)
+    $question.textContent = "(" + quizCount.toString() + ") " + quiz[quizCount].question + " ";
+
+    const buttonLen = $buttons.length;
+    let btnIndex = 0;
+
+    while (btnIndex < buttonLen) {
+        $buttons[btnIndex].textContent = quiz[quizCount].answers[btnIndex];
+        btnIndex++;
+    }
+};
+
+const goToNext = () => {
+    quizCount++;
+    if (quizCount < quizLen + 1) {
+        init(quizCount);
+    } else {
+        // $window.alert('クイズ終了！');
+        showEnd();
+    }
+};
+
+const judge = (elm) => {
+    let correct_answer =quiz[quizCount].correct
+    if (elm.textContent === correct_answer) {
+        $window.alert('正解!');
+        score++;
+    } else {
+        $window.alert('不正解! 正解は「'+ correct_answer + '」です。');
+    }
+    goToNext();
+};
+
+const showEnd = () => {
+    $question.textContent = '終了！あなたのスコアは' + score + '/' + quizLen + 'です';
+    const $items = $doc.getElementById('js-items');
+    const user = params.get('user')
+    const start = params.get('start')
+    const end = params.get('end')
+    const how_many = params.get('how_many')
+    const sendTo = params.get('send_to')
+    $items.style.visibility = 'hidden';
+    xhr = new XMLHttpRequest();
+    post_result_json(score,quizLen,user,sendTo)
+};
+
+const post_result_json = (points,quizLen,user,sendTo) => {
+    var json_asocc = {
+                'test_title'     : document.getElementById('test_title').innerHTML.toString(),
+                'score'     : points.toString(),
+                'number_of_quiz': quizLen.toString(),
+                'user' : user.toString(),
+                'send_to': sendTo.toString()
+            }
+    console.log(json_asocc)
+    //JSONにエンコード
+    let json_text = JSON.stringify(json_asocc);
+
+    //データを送信
+    xhr = new XMLHttpRequest;       //インスタンス作成
+    xhr.onload = function(){        //レスポンスを受け取った時の処理（非同期）
+        var res = xhr.responseText;
+        if (res.length>0) alert(res);
+    };
+    //xhr.onerror = function(){       //エラーが起きた時の処理（非同期）
+    //    alert("error!");
+    //}
+    xhr.open('post', "https://tangotest-maker.com/register_result", true);    //(1)
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(json_text);
+}
+
+init();
+
+let answersIndex = 0;
+let answersLen = quiz[quizCount].answers.length;
+
+while (answersIndex < answersLen) {
+    $buttons[answersIndex].addEventListener('click', (e) => {
+        judge(e.target);
+    });
+    answersIndex++;
+}
+
+
+  </script>
+</body>
+
+</html>
