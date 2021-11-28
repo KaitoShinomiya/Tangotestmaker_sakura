@@ -101,12 +101,22 @@ def check_result_SQL(user_id, which_book, test_date, correct_rate):
     conn, cur = connet_MySQL(True)
     if not user_id == 0:
         cur.execute('SELECT name FROM user_list WHERE id=%s', (user_id,))
-        row = cur.fetchall()[0][0]
-    query = 'SELECT test_name,which_book,score_percent,test_date from user_else where correct_rate =<' + str(
-        correct_rate)
+        user_name = 'user_' + cur.fetchall()[0][0]
+    else:
+        user_name = 'user_else'
+
+    if not which_book == 0:
+        refer_book_str = ' and which_book = ' + str(which_book)
+    else:
+        refer_book_str = ''
+
+    query = 'SELECT test_name,which_book,score_percent,test_date from ' + user_name + ' where score_percent <= ' + str(
+        correct_rate) + refer_book_str + ' and test_date >= (NOW() - INTERVAL ' + str(
+        test_date) + ' DAY) ORDER BY id DESC'
     cur.execute(query)
     rows = cur.fetchall()
     close_MySQL(conn, cur)
+
     return_list = []
     for row in rows:
         row_list = []
