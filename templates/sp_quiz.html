@@ -101,22 +101,30 @@ const showEnd = () => {
     $question.textContent = '終了！あなたのスコアは' + score + '/' + quizLen + 'です';
     const $items = $doc.getElementById('js-items');
     const user = params.get('user')
+    const which_book = params.get('which_book')
+    const sendTo = params.get('send_to')
     const start = params.get('start')
     const end = params.get('end')
     const how_many = params.get('how_many')
-    const sendTo = params.get('send_to')
+    const en_or_jp = params.get('which_lang')
+    const select_or_blank = params.get('select_or_not')
     $items.style.visibility = 'hidden';
     xhr = new XMLHttpRequest();
-    post_result_json(score,quizLen,user,sendTo)
+    post_result_json(score,user,which_book,sendTo,start,end,how_many,en_or_jp,select_or_blank)
 };
 
-const post_result_json = (points,quizLen,user,sendTo) => {
+const post_result_json = (points,user,which_book,sendTo,start,end,how_many,en_or_jp,select_or_blank) => {
     var json_asocc = {
                 'test_title'     : document.getElementById('test_title').innerHTML.toString(),
                 'score'     : points.toString(),
-                'number_of_quiz': quizLen.toString(),
+                'start': start.toString(),
+                'end':end.toString(),
+                'en_or_jp': en_or_jp.toString(),
+                'select_or_blank':select_or_blank.toString(),
+                'number_of_quiz': how_many.toString(),
                 'user' : user.toString(),
-                'send_to': sendTo.toString()
+                'send_to': sendTo.toString(),
+                'which_book': which_book.toString()
             }
     console.log(json_asocc)
     //JSONにエンコード

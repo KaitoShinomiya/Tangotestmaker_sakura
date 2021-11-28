@@ -2,7 +2,7 @@ import mysql.connector
 import datetime
 
 
-def connet_MySQL(is_user = False) -> object:
+def connet_MySQL(is_user=False) -> object:
     if is_user == False:
         database_name = "kaitoshinomiya_tangotest_data"
     else:
@@ -35,12 +35,14 @@ def get_bookname_from_MySQL(id_db):
     bookname_taple = row[0]
     return bookname_taple
 
+
 def get_booklist():
     conn, cur = connet_MySQL()
     cur.execute("SELECT id,booklist FROM booklist;")
     rows = cur.fetchall()
-    close_MySQL(conn,cur)
+    close_MySQL(conn, cur)
     return rows
+
 
 def get_userlist():
     conn, cur = connet_MySQL(True)
@@ -65,25 +67,23 @@ def register_user_list(user_name):
     query = 'INSERT INTO user_list(name) VALUES (%s)'
     val = (user_name,)
     cur.execute(query, val)
-    query = "CREATE TABLE user_" + user_name + " (`id` INT AUTO_INCREMENT primary key NOT NULL,`test_name` varchar(100) NOT NULL,`score_percent` int(10) NOT NULL,`test_date` datetime NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
+    query = "CREATE TABLE user_" + user_name + " (`id` INT AUTO_INCREMENT primary key NOT NULL,`test_name` varchar(100) NOT NULL,`score_percent` int(10) NOT NULL,`test_date` datetime NOT NULL,`which_book`int(10) NOT NULL,`start` int(10) NOT NULL,`end` int(10) NOT NULL,`how_many` int(10) NOT NULL,`select_or_blank` varchar(100) NOT NULL,`en_or_jp` varchar(100) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
     cur.execute(query)
     close_MySQL(conn, cur, True)
 
     return True
 
 
-def register_user_result(test_title, score_rate, user_name):
+def register_user_result(test_title, score_rate, user_name, which_book, start, end, how_many, sel_or_bla, en_or_jp):
     now = datetime.datetime.now()
     conn, cur = connet_MySQL(True)
-    query = 'INSERT INTO user_' + user_name + '(test_name,score_percent,test_date) VALUES(%s,%s,%s)'
-    values = (test_title, score_rate, now.strftime('%Y-%m-%d %H:%M:%S'))
+    query = 'INSERT INTO user_' + user_name + '(test_name,score_percent,test_date,which_book,start,end,how_many,select_or_blank,en_or_jp) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+    values = (
+    test_title, score_rate, now.strftime('%Y-%m-%d %H:%M:%S'), which_book, start, end, how_many, sel_or_bla, en_or_jp)
     cur.execute(query, values)
     close_MySQL(conn, cur, True)
 
     return True
-
-
-
 
 
 def get_testdf_from_MySQL(db_name):
@@ -94,8 +94,6 @@ def get_testdf_from_MySQL(db_name):
     close_MySQL(conn, cur)
 
     return rows
-
-
 
 
 def post_test_result(user_id):

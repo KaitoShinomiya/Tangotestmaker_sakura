@@ -101,19 +101,33 @@ def user_handling():
 def result_check():
     return_html = user_list2html(get_userlist())
     return_booklist = user_list2html(get_booklist())
+
     if request.method == "GET":
 
         return render_template("result_check.html", select_user=return_html, booklist=return_booklist)
     elif request.method == "POST":
+
         # 期間指定、本の指定、正解率の指定で絞りができるとなお良いと思う。
         return render_template("result_check.html", select_user=return_html, booklist=return_booklist)
 
 
 @app.route("/register_result", methods=["POST"])
 def register():
+    which_book = request.json['which_book']
     title = request.json['test_title']
+    start, end, number_of_quiz = int(request.json['start']), int(request.json['end']), int(
+        request.json['number_of_quiz'])
     score = int(request.json['score'])
-    number_of_quiz = int(request.json['number_of_quiz'])
+
+    if request.json['en_or_jp'] == '0':
+        en_or_jp = 'e'
+    else:
+        en_or_jp = 'j'
+
+    if request.json['select_or_blank'] == '0':
+        sel_or_bla = 's'
+    else:
+        sel_or_bla = 'b'
     send_to = int(request.json['send_to'])
     user_id = int(request.json['user'])
     correct_rate = int(score / number_of_quiz * 100)
@@ -123,7 +137,7 @@ def register():
         user_name = get_user_id(user_id)  # idから名前を取得する関数
     else:
         user_name = 'else'
-    register_user_result(title, correct_rate, user_name)
+    register_user_result(title, correct_rate, user_name, which_book, start, end, number_of_quiz, sel_or_bla, en_or_jp)
 
     if not send_to == 0:
         send_line_notify(return_str)
