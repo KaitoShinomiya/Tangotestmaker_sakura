@@ -87,9 +87,13 @@ def user_handling():
 
     elif request.method == "POST":
         user_name = request.form["user_name"]
-        # formにスペースが会ったときにアンダーバー入れる処理があるといいかも。
+
+        for i in user_name:
+            if i == " ":
+                i = "_"
+
         try:
-            # SQLへのデータ登録
+
             register_user_list(user_name)
             return render_template("user_register.html", error_message="登録完了しました！")
 
@@ -110,8 +114,7 @@ def result_check():
                                                        request.form['test_date'], int(request.form[
                                                                                           'correct_rate'])
         return_table = check_result_SQL(user_id, which_book, test_date, correct_rate)
-        # 期間指定、本の指定、正解率の指定で絞りができるとなお良いと思う。
-        # ここを修正したら完成
+
         return render_template("result_check.html", select_user=return_html, booklist=return_booklist,
                                return_table=return_table)
 
