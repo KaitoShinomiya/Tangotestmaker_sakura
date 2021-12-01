@@ -1,12 +1,12 @@
 # TangotestMaker
-https://tangotestmaker.herokuapp.com <br>
+https://tangotest-maker.com <br>
 実際に運営しているサイトのURLです。
 使い方などはURLの先から確認できます。
 
 This software is released under the MIT License, see LICENSE.txt.
 
 ソースコードなどは以下から確認できます。<br>
-https://github.com/KaitoShinomiya/Tangotest
+https://github.com/KaitoShinomiya/Tangotestmaker_sakura
 ## About
 本ウェブアプリは、単語テストを作成するサービスです。<br>
 パソコンからのアクセスでは塾講師向けの印刷用プリント、スマートフォンからのアクセスでは生徒向けの4択クイズウェブアプリを提供します。<br>
@@ -22,8 +22,7 @@ https://github.com/KaitoShinomiya/Tangotest
 
 ### サンプル
 実際に動いているサーバーのURLは以下の通りです↓。<br>
-https://tangotestmaker.herokuapp.com <br> 
-利用者が多い16時から22時は常時サーバー稼働、その他時間はサーバーがスリープ状態に入るときがあります(アクセスまで10秒から20秒かかることあり)。
+https://tangotest-maker.com <br>
 
 ## SET UP
 terminalでherokuの準備<br>
@@ -61,7 +60,12 @@ heroku push heroku "local repositry":master
 ・よりモダンなUIデザインへの変更のため、フロントエンドをReactに変更。<br>
 ・利用者からのフィードバックを反映。<br>
 ①単語テストのデータ拡充<br>
-②過去のデータをサーバー管理。これまでの結果を確認することを可能にする。
+英検出る順対応、ターゲット1400に対応<br>
+<br>
+アップロードのフローをしっかり作っておこう。<br>
+まずbooklistに登録<br>
+そのあと単語テストのリストを作成<br>
+sshして中に入っているsql_upload.pyでインサート<br>
 
 ## About API for smartphone
 
@@ -88,9 +92,8 @@ const quiz = {
 ```
 
 ## Next works
-・SQL用のサーバー(python)を書き換え<br>
-・フロントエンドの構築<br>
 ・JS拡充
+
 
 ## Future Vision
 ・自然言語処理を用い、類似度の高いものを中心に出題。<br>
