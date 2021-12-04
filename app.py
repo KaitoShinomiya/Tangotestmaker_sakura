@@ -126,7 +126,7 @@ def result_check():
                                return_table=return_table)
 
 
-@app.route("login", methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
 def user_login():
     return render_template("login.html")
 
