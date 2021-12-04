@@ -9,7 +9,7 @@ from make_test import make_test
 from server_utils import send_line_notify, number_handling, user_list2html, test_label
 from mysql_db import get_bookname_from_MySQL, get_testdf_from_MySQL, register_user_list, get_userlist, get_user_id, \
     register_user_result, get_booklist, check_result_SQL
-from flask_login import LoginManager
+from flask_login import LoginManager, login_required
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 
@@ -132,7 +132,7 @@ def user_login():
 
 
 @app.route("/data_upload")
-
+@app.login_required
 def data_upload():
     return render_template("data_upload.html")
 
