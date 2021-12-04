@@ -9,11 +9,18 @@ from make_test import make_test
 from server_utils import send_line_notify, number_handling, user_list2html, test_label
 from mysql_db import get_bookname_from_MySQL, get_testdf_from_MySQL, register_user_list, get_userlist, get_user_id, \
     register_user_result, get_booklist, check_result_SQL
+from flask_login import LoginManager
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
 
 app = Flask(__name__)
 CORS(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+app.config['SECRET_KEY'] = "secret"
 
 
+@login_manager.user_loader()
 @app.route("/check")
 def index():
     return "Hello Flask!"
@@ -117,6 +124,17 @@ def result_check():
 
         return render_template("result_check.html", select_user=return_html, booklist=return_booklist,
                                return_table=return_table)
+
+
+@app.route("login", methods=["GET", "POST"])
+def user_login():
+    return render_template("login.html")
+
+
+@app.route("/data_upload")
+@login_required
+def data_upload():
+    return render_template("data_upload.html")
 
 
 @app.route("/register_result", methods=["POST"])
