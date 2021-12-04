@@ -15,12 +15,8 @@ from wtforms import StringField, SubmitField
 
 app = Flask(__name__)
 CORS(app)
-login_manager = LoginManager()
-login_manager.init_app(app)
-app.config['SECRET_KEY'] = "secret"
 
 
-@login_manager.user_loader()
 @app.route("/check")
 def index():
     return "Hello Flask!"
@@ -135,6 +131,7 @@ def user_login():
 def data_upload():
     return render_template("data_upload.html")
 '''
+
 
 @app.route("/register_result", methods=["POST"])
 def register():
