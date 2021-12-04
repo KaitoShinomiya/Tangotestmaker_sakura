@@ -142,7 +142,7 @@ def result_check():
 
 
 @app.route("/login", methods=["GET", "POST"])
-def user_login():
+def login():
     form = LoginForm()
     if form.validate_on_submit():
         if form.user_name.data == 'Kaito' and form.password.data == 'Shinomiya':
