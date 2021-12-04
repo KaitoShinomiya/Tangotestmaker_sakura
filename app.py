@@ -17,7 +17,7 @@ app = Flask(__name__)
 CORS(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-
+app.config['SECRET_KEY'] = "secret"
 
 @login_manager.user_loader
 @app.route("/check")
