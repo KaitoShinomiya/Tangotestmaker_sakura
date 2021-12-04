@@ -132,7 +132,7 @@ def user_login():
 
 
 @app.route("/data_upload")
-@app.login_required
+@login_required
 def data_upload():
     return render_template("data_upload.html")
 
