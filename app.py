@@ -15,6 +15,9 @@ from wtforms import StringField, SubmitField
 
 app = Flask(__name__)
 CORS(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+app.config['SECRET_KEY'] = "secret"
 
 
 @app.route("/check")
