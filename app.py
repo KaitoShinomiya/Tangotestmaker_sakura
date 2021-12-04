@@ -2,14 +2,14 @@
 import os
 import qrcode
 import json
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 from flask import request
 from flask_cors import CORS
 from make_test import make_test
 from server_utils import send_line_notify, number_handling, user_list2html, test_label
 from mysql_db import get_bookname_from_MySQL, get_testdf_from_MySQL, register_user_list, get_userlist, get_user_id, \
     register_user_result, get_booklist, check_result_SQL
-from flask_login import LoginManager, login_required
+from flask_login import LoginManager, login_required, UserMixin, login_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 
@@ -19,7 +19,23 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 app.config['SECRET_KEY'] = "secret"
 
+
+class User(UserMixin):
+    def __init__(self, user_id):
+        self.id = user_id
+
+
+class LoginForm(FlaskForm):
+    user_name = StringField('user_name')
+    password = StringField('passwprd')
+    submit = SubmitField('ログイン')
+
+
 @login_manager.user_loader
+def load_user(user_id):
+    return User(user_id)
+
+
 @app.route("/check")
 def index():
     return "Hello Flask!"
@@ -127,7 +143,16 @@ def result_check():
 
 @app.route("/login", methods=["GET", "POST"])
 def user_login():
-    return render_template("login.html")
+    form = LoginForm()
+    if form.validate_on_submit():
+        if form.user_name.data == 'Kaito' and form.password.data == 'Shinomiya':
+            user = User(form.user_name.data)
+            login_user(user)
+            return redirect('/data_upload')
+        else:
+            return 'ログインに失敗しました'
+
+    return render_template("login.html", form=form)
 
 
 @app.route("/data_upload")

@@ -67,6 +67,8 @@ heroku push heroku "local repositry":master
 そのあと単語テストのリストを作成<br>
 sshして中に入っているsql_upload.pyでインサート<br>
 
+ログインページ作成→そこからデータのアップロードを可能にしたい。
+
 ## About API for smartphone
 
 smartphone向けのテストデータ受け渡し用にAPIを開放しています。
