@@ -32,14 +32,10 @@
             <label>How many</label>
             <span class="focus_line"></span>
         </div>
-
-        <div class="mt-3 d-flex justify-content-center">
-            <select id="select_or_not" name="select_or_not" size="1" class="form-select w-50">
-                <option selected value="-1">四択か空白か</option>
-                <option value=0>四択</option>
-                <option value=1>空白</option>
-            </select><br>
-        </div>
+        <group class="inline-radio">
+            <div><input type="radio" id="select_or_not" name="select_or_not" value=0 checked="checked"><label>四択</label></div>
+            <div><input type="radio" id="select_or_not" name="select_or_not" value=1><label>空白</label></div>
+        </group>
         <div class="mt-3 d-flex justify-content-center">
             <select id="sequence_or_random" name="sequence_or_random" size="1" class="form-select w-50 ">
                 <option selected value="-1">単語帳の順番通りかランダムか</option>
@@ -47,15 +43,16 @@
                 <option value=1>ランダム</option>
             </select><br>
         </div>
+        <group class="inline-radio">
+            <div><input type="radio" id="sequence_or_random" name="sequence_or_random" value=0 checked="checked"><label>順番通り</label></div>
+            <div><input type="radio" id="sequence_or_random" name="sequence_or_random" value=1><label>ランダム</label></div>
+        </group>
+        <group class="inline-radio">
+            <div><input type="radio" id="which_lang" name="which_lang" value=0 checked="checked"><label>英語</label></div>
+            <div><input type="radio" id="which_lang" name="which_lang" value=1><label>日本語</label></div>
+        </group>
         <div class="mt-3 d-flex justify-content-center">
-            <select id="which_lang" name="which_lang" size="1" class="form-select w-50">
-                <option selected value="-1">英語か日本語</option>
-                <option value=0>英語</option>
-                <option value=1>日本語</option>
-            </select><br>
-        </div>
-        <div class="mt-3 d-flex justify-content-center">
-            <select id="which_book" name="which_book" size="1" class="form-select w-50">
+            <select id="which_book" name="which_book" size="1" class="form-select w-75">
                 <option selected value="-1">単語帳を選んでください</option>
                 {{ booklist | safe }}
             </select><br>
@@ -64,28 +61,6 @@
             <input type="submit" value="make">
         </div>
         <br>
-        <group class="inline-radio">
-            <div><input type="radio" name="title"><label>Mr</label></div>
-            <div><input type="radio" name="title" checked><label>Miss</label></div>
-            <div><input type="radio" name="title"><label>Mrs</label></div>
-            <div><input type="radio" name="title"><label>Ms</label></div>
-            <div><input type="radio" name="title"><label>Dr</label></div>
-        </group>
-        <group class="inline-radio">
-            <div><input type="radio" name="visits"><label>Never</label></div>
-            <div><input type="radio" name="visits"><label>Rarely</label></div>
-            <div><input type="radio" name="visits" checked><label>Often</label></div>
-            <div><input type="radio" name="visits"><label>Loads</label></div>
-        </group>
-        <group class="inline-radio">
-            <div><input type="radio" name="lives" checked><label>Village</label></div>
-            <div><input type="radio" name="lives"><label>Town</label></div>
-            <div><input type="radio" name="lives"><label>City</label></div>
-        </group>
-        <group class="inline-radio">
-            <div><input type="radio" name="member"><label>Yes</label></div>
-            <div><input type="radio" name="member" checked><label>No</label></div>
-        </group>
     </form>
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">

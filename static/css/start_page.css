@@ -61,7 +61,7 @@ body {
   height: 100%;
 }
 body {
-  background: #e91e63;
+  background: rgba(255, 255, 255, 0);
   font-family: 'Roboto', sans-serif;
   display: flex;
   padding: 30px;
@@ -115,7 +115,7 @@ group + group {
   border-right: 0;
 }
 .inline-radio input:checked + label {
-  background: #d81b60;
+  background: #d81b6d;
   font-weight: 500;
   color: #fff;
 }
