@@ -8,16 +8,20 @@ from flask_cors import CORS
 from make_test import make_test
 from server_utils import send_line_notify, number_handling, user_list2html, test_label
 from mysql_db import get_bookname_from_MySQL, get_testdf_from_MySQL, register_user_list, get_userlist, get_user_id, \
-    register_user_result, get_booklist, check_result_SQL
+    register_user_result, get_booklist, check_result_SQL, register_book_data, add_csvdata2MySQL
 from flask_login import LoginManager, login_required, UserMixin, login_user, logout_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 
+UPLOAD_FOLDER = './uploads'
+# アップロードされる拡張子の制限
+ALLOWED_EXTENSIONS = set(['csv', 'jpg'])
 app = Flask(__name__)
 CORS(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 app.config['SECRET_KEY'] = "secret"
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 class User(UserMixin):
@@ -34,11 +38,6 @@ class LoginForm(FlaskForm):
 @login_manager.user_loader
 def load_user(user_id):
     return User(user_id)
-
-
-@app.route("/check")
-def index():
-    return "Hello Flask!"
 
 
 @app.route("/")
@@ -155,10 +154,22 @@ def login():
     return render_template("login.html", form=form)
 
 
-@app.route("/data_upload")
+@app.route("/data_upload", methods=['GET', 'POST'])
 @login_required
 def data_upload():
-    return render_template("data_upload.html")
+    if request.method == "GET":
+        return render_template("data_upload.html", result="")
+    else:
+        try:
+            book_name_en = request.form['booklist']
+            book_name_jp = request.form['bookname']
+            register_book_data(book_name_en, book_name_jp)
+            file = request.files['file']
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+            add_csvdata2MySQL("./uploads/" + file.filename, book_name_en)
+            return render_template("data_upload.html", result="登録完了")
+        except:
+            return render_template("data_upload.html", result="エラーが発生しました。もう一度やり直してください")
 
 
 @app.route("/logout")

@@ -1,5 +1,6 @@
 import mysql.connector
 import datetime
+import csv
 
 
 def connet_MySQL(is_user=False) -> object:
@@ -74,6 +75,17 @@ def register_user_list(user_name):
     return True
 
 
+def register_book_data(book_name_en, book_name_jp):
+    conn, cur = connet_MySQL()
+    query = 'INSERT INTO booklist(booklist,bookname) VALUES (%S,%S)'
+    val = (book_name_en, book_name_jp)
+    cur.execute(query, val)
+    query = "CREATE TABLE " + book_name_en + " (`id` INT AUTO_INCREMENT primary key NOT NULL,`english` varchar(100),`japanese` varchar(100)) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
+    cur.execute(query)
+    close_MySQL(conn, cur, True)
+    return True
+
+
 def register_user_result(test_title, score_rate, user_name, which_book, start, end, how_many, sel_or_bla, en_or_jp):
     now = datetime.datetime.now()
     conn, cur = connet_MySQL(True)
@@ -128,6 +140,22 @@ def check_result_SQL(user_id, which_book, test_date, correct_rate):
         return_list.append(row_list)
 
     return return_list
+
+
+def add_csvdata2MySQL(file_path, filename_en):
+    conn, cur = connet_MySQL()
+    with open(file_path) as f:
+        reader = csv.reader(f)
+        i = 1
+        for row in reader:
+            a = str(row[1])
+            b = str(row[2])
+
+            cur.execute("INSERT INTO " + filename_en + " VALUES (%s, %s, %s)", (i, a, b))
+            i = i + 1
+    close_MySQL(conn, cur, True)
+
+    return True
 
 
 def post_test_result(user_id):

@@ -2,9 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>ファイルアップロード</title>
 </head>
 <body>
-
+<h1>ファイルをアップロード</h1>
+<h2>{{ result }}</h2>
+            <form method = post enctype = multipart/form-data action="{{url_for('data_upload')}}">
+                <input type="text" id="booklist" name="booklist" placeholder="bookname_en">
+                <input type="text" id="bookname" name="bookname" placeholder="bookname_en">
+                <input type=file name = file>
+            <input type = submit value = Upload>
+            </form>
 </body>
 </html>
