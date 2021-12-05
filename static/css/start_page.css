@@ -3,6 +3,11 @@
 	width: 75%;
 	margin: auto auto;
 }
+.width_radio{
+    position: relative;
+	width: 60%;
+	margin: auto auto;
+}
 .cp_iptxt input[type='text'] {
 	font: 15px/24px sans-serif;
 	box-sizing: border-box;
@@ -26,7 +31,7 @@
 	width: 0;
 	height: 2px;
 	transition: 0.4s;
-	background-color: #da3c41;
+	background-color: #cd4a78;
 }
 .ef:focus ~ .focus_line,
 .cp_iptxt.ef ~ .focus_line {
@@ -47,7 +52,7 @@
 	font-size: 12px;
 	top: -16px;
 	transition: 0.3s;
-	color: #da3c41;
+	color: #cd4a78;
 }
 
 *,
@@ -106,7 +111,7 @@ group + group {
   border-right: 0;
 }
 .inline-radio input:checked + label {
-  background: #d81b6d;
+  background: #cd4a78;
   font-weight: 500;
   color: #fff;
 }
