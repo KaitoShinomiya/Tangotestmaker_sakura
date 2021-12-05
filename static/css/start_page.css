@@ -1,7 +1,7 @@
 .cp_iptxt {
 	position: relative;
 	width: 50%;
-	margin: 5% 0;
+	margin: auto auto;
 }
 .cp_iptxt input[type='text'] {
 	font: 15px/24px sans-serif;
