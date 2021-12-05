@@ -1,16 +1,17 @@
-<html>
-  <head>
-    <title>Login</title>
-  </head>
-  <body>
-    <h1>ログイン</h1>
-  <p>
-      <form method="POST" action="{{url_for('login')}}">
-        {{ form.csrf_token }}
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<div class="login">
+  <div class="login-triangle"></div>
+
+  <h2 class="login-header">Log in</h2>
+
+  <form class="login-container">
+    {{ form.csrf_token }}
         {{ form.user_name.label }}:{{ form.user_name }}
         {{ form.password.label }}:{{ form.password }}
         {{ form.submit}}
-    </form>
-  </p>
-  </body>
-</html>
+  </form>
+</div>
+
+
