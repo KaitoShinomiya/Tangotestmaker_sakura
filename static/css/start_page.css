@@ -117,15 +117,20 @@ group + group {
 }
 
 
-.btn-border {
-  border: 2px solid #000;
-  border-top: 1px solid #000;
-  border-radius: 0 0 .5rem .5rem;
-  background-color: #fff;
-  background-image: -webkit-radial-gradient(#000 15%, transparent 20%),
-  -webkit-radial-gradient(#000 15%, transparent 20%);
-  background-image: radial-gradient(#000 15%, transparent 20%),
-  radial-gradient(#000 15%, transparent 20%);
-  background-position: 0 0, 3px 3px;
-  background-size: 6px 6px;
+.btn-flat-vertical-border {
+  position: relative;
+  display: inline-block;
+  font-weight: bold;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  border-left: solid 4px #668ad8;
+  border-right: solid 4px #668ad8;
+  color: #668ad8;
+  background: #e1f3ff;
+  transition: .4s;
+}
+
+.btn-flat-vertical-border:hover {
+  background: #668ad8;
+  color: #FFF;
 }
