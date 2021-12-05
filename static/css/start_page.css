@@ -115,3 +115,17 @@ group + group {
   font-weight: 500;
   color: #fff;
 }
+
+
+.btn-border {
+  border: 2px solid #000;
+  border-top: 1px solid #000;
+  border-radius: 0 0 .5rem .5rem;
+  background-color: #fff;
+  background-image: -webkit-radial-gradient(#000 15%, transparent 20%),
+  -webkit-radial-gradient(#000 15%, transparent 20%);
+  background-image: radial-gradient(#000 15%, transparent 20%),
+  radial-gradient(#000 15%, transparent 20%);
+  background-position: 0 0, 3px 3px;
+  background-size: 6px 6px;
+}
