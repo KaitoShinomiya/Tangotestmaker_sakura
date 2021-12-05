@@ -111,7 +111,7 @@ group + group {
   border-right: 0;
 }
 .inline-radio input:checked + label {
-  background: #cd4a78;
+  background: #ff5593;
   font-weight: 500;
   color: #fff;
 }
