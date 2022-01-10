@@ -6,9 +6,9 @@ from flask import Flask, render_template, redirect
 from flask import request
 from flask_cors import CORS
 from make_test import make_test
-from server_utils import send_line_notify, number_handling, user_list2html, test_label
+from server_utils import send_line_notify, number_handling, user_list2html, test_label,book_name2_html
 from mysql_db import get_bookname_from_MySQL, get_testdf_from_MySQL, register_user_list, get_userlist, get_user_id, \
-    register_user_result, get_booklist, check_result_SQL, register_book_data, add_csvdata2MySQL
+    register_user_result, get_booklist, check_result_SQL, register_book_data, add_csvdata2MySQL,get_bookname4_start_page
 from flask_login import LoginManager, login_required, UserMixin, login_user, logout_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
@@ -43,7 +43,8 @@ def load_user(user_id):
 @app.route("/")
 def start_page():
     return_booklist = user_list2html(get_booklist())
-    return render_template("make_test.html", booklist=return_booklist)
+    bookname_list = book_name2_html(get_bookname4_start_page())
+    return render_template("make_test.html", booklist=return_booklist,bookname_list=bookname_list)
 
 
 @app.route("/t")

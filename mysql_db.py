@@ -37,6 +37,15 @@ def get_bookname_from_MySQL(id_db):
     return bookname_taple
 
 
+def get_bookname4_start_page():
+    conn, cur = connet_MySQL()
+    cur.execute("select booklist,bookname from booklist", )
+    row = cur.fetchall()
+    close_MySQL(conn, cur)
+
+    return row
+
+
 def get_booklist():
     conn, cur = connet_MySQL()
     cur.execute("SELECT id,booklist FROM booklist;")
