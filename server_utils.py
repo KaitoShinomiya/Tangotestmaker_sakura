@@ -55,9 +55,10 @@ def test_label(which_book, start, end, how_many):
 def book_name2_html(rows):
     return_str = ""
     for row in rows:
-        return_str = return_str + str(row[0]) + " : " + str(row[1]) + "<br>"
+        return_str = return_str + "「" + str(row[0]) + "」" + str(row[1]) + "<br>"
 
     return return_str
+
 
 class Counter:
     counter = 0
