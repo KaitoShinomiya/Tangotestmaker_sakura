@@ -25,21 +25,17 @@ https://github.com/KaitoShinomiya/Tangotestmaker_sakura
 https://tangotest-maker.com <br>
 
 ## SET UP
-terminalでherokuの準備<br>
-管理のためのサーバアクセス時は、初回に以下の処理を行ってください。
-(管理端末とサーバとの連携のため)
-```Bash
-heroku login
-heroku remote add heroku "URL"
+index.cgiを設定することにより、さくらサーバー上で展開
+```python
+#!/home/user_name/.pyenv/versions/3.7.11/bin/python
+# -*- coding: utf-8 -*-
+import cgitb
+cgitb.enable()
 
-#もしbuildpackがなかったら(現状使ってないけどimportしてるからインストールしとかないとエラー出る)
-heroku buildpacks:add --index 1 heroku/python
-heroku buildpacks:add --index 1 https://github.com/KaitoShinomiya/wkhtmltopdf-buildpack.git
+from wsgiref.handlers import CGIHandler
+from app import app
 
-heroku commit -m "commit message"
-heroku push heroku master
-or
-heroku push heroku "local repositry":master 
+CGIHandler().run(app)
 ```
 
 ## データについて
@@ -60,19 +56,13 @@ heroku push heroku "local repositry":master
 ・よりモダンなUIデザインへの変更のため、フロントエンドをReactに変更。<br>
 ・利用者からのフィードバックを反映。<br>
 ①単語テストのデータ拡充<br>
-英検出る順対応、ターゲット1400に対応<br>
+ターゲット1400に対応<br>
 <br>
-アップロードのフローをしっかり作っておこう。<br>
-まずbooklistに登録<br>
-そのあと単語テストのリストを作成<br>
-sshして中に入っているsql_upload.pyでインサート<br>
-
-ログインページ作成→そこからデータのアップロードを可能にしたい。
 
 ## About API for smartphone
 
 smartphone向けのテストデータ受け渡し用にAPIを開放しています。
-Post先は/return_test_spです。
+Post先は/return_test_sp_dataです。
 レスポンスのJSONは以下の形で送信されます。
 
 ```js
@@ -101,4 +91,5 @@ const quiz = {
 ・自然言語処理を用い、類似度の高いものを中心に出題。<br>
 →意味の似ている類似度の高い単語を中心に出題。<br>
 
-・合成音声を使ったリスニング機能
+・合成音声を使ったリスニング機能<br>
+・よく間違える問題などを中心に出題する<br>
