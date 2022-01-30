@@ -43,17 +43,15 @@ def load_user(user_id):
 
 @app.route("/")
 def start_page():
-    return_booklist = user_list2html(get_booklist())
-    bookname_list = book_name2_html(get_bookname4_start_page())
-    return render_template("make_test.html", booklist=return_booklist, bookname_list=bookname_list)
+    return render_template("make_test.html", booklist=user_list2html(get_booklist()),
+                           bookname_list=book_name2_html(get_bookname4_start_page()))
 
 
 @app.route("/t")
 def make_forT():
-    return_html, return_booklist = user_list2html(get_userlist()), user_list2html(get_booklist())
-    bookname_list = book_name2_html(get_bookname4_start_page())
-    return render_template("make_test_forT.html", select_send2=return_html, booklist=return_booklist,
-                           bookname_list=bookname_list)
+    return render_template("make_test_forT.html", select_send2=user_list2html(get_userlist()),
+                           booklist=user_list2html(get_booklist()),
+                           bookname_list=book_name2_html(get_bookname4_start_page()))
 
 
 @app.route("/return_test")
@@ -198,7 +196,6 @@ def register():
         sel_or_bla = 's'
     else:
         sel_or_bla = 'b'
-
     correct_rate = int(score / number_of_quiz * 100)
 
     return_str = "「" + str(title) + "」のテストを行い正解率" + str(correct_rate) + "％でした。"
