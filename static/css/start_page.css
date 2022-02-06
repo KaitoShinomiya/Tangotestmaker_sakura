@@ -1,0 +1,118 @@
+.cp_iptxt {
+	position: relative;
+	width: 50%;
+	margin: auto auto;
+}
+.width_radio{
+    position: relative;
+	width: 60%;
+	margin: auto auto;
+}
+.cp_iptxt input[type='text'] {
+	font: 15px/24px sans-serif;
+	box-sizing: border-box;
+	width: 100%;
+	letter-spacing: 1px;
+	padding-left: 4em;
+}
+.cp_iptxt input[type='text']:focus {
+	outline: none;
+}
+.ef {
+	padding: 4px 0;
+	border: 0;
+	border-bottom: 1px solid #1b2538;
+	background-color: transparent;
+}
+.ef ~ .focus_line {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 0;
+	height: 2px;
+	transition: 0.4s;
+	background-color: #cd4a78;
+}
+.ef:focus ~ .focus_line,
+.cp_iptxt.ef ~ .focus_line {
+	width: 100%;
+	transition: 0.4s;
+}
+.ef ~ label {
+	position: absolute;
+	z-index: -1;
+	top: 4px;
+	left: 0;
+	width: 100%;
+	transition: 0.3s;
+	letter-spacing: 0.5px;
+	color: #aaaaaa;
+}
+.ef:focus ~ label, .cp_iptxt.ef ~ label {
+	font-size: 12px;
+	top: -16px;
+	transition: 0.3s;
+	color: #cd4a78;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+body {
+  background: rgba(255, 255, 255, 0);
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  padding: 30px;
+}
+
+h1 {
+  color: #fff;
+}
+group + group {
+  margin-top: 20px;
+}
+.inline-radio {
+  display: flex;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid #b6b6b6;
+}
+.inline-radio div {
+  position: relative;
+  flex: 1;
+}
+.inline-radio input {
+  width: 100%;
+  height: 60px;
+  opacity: 0;
+}
+.inline-radio label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #b6b6b6;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  border-right: 1px solid #b6b6b6;
+}
+.inline-radio div:last-child label {
+  border-right: 0;
+}
+.inline-radio input:checked + label {
+  background: #ff5593;
+  font-weight: 500;
+  color: #fff;
+}
+

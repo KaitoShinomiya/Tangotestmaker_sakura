@@ -2,34 +2,56 @@
 import os
 import qrcode
 import json
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 from flask import request
 from flask_cors import CORS
 from make_test import make_test
-from server_utils import send_line_notify, number_handling, user_list2html, test_label
+from server_utils import send_line_notify, number_handling, user_list2html, test_label, book_name2_html
 from mysql_db import get_bookname_from_MySQL, get_testdf_from_MySQL, register_user_list, get_userlist, get_user_id, \
-    register_user_result, get_booklist, check_result_SQL
+    register_user_result, get_booklist, check_result_SQL, register_book_data, add_csvdata2MySQL, \
+    get_bookname4_start_page
+from flask_login import LoginManager, login_required, UserMixin, login_user, logout_user
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
 
+UPLOAD_FOLDER = './uploads'
+# アップロードされる拡張子の制限
+ALLOWED_EXTENSIONS = set(['csv', 'jpg'])
 app = Flask(__name__)
 CORS(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+app.config['SECRET_KEY'] = "secret"
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-@app.route("/check")
-def index():
-    return "Hello Flask!"
+class User(UserMixin):
+    def __init__(self, user_id):
+        self.id = user_id
+
+
+class LoginForm(FlaskForm):
+    user_name = StringField('user_name')
+    password = StringField('passwprd')
+    submit = SubmitField('ログイン')
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User(user_id)
 
 
 @app.route("/")
 def start_page():
-    return_booklist = user_list2html(get_booklist())
-    return render_template("make_test.html", booklist=return_booklist)
+    return render_template("make_test.html", booklist=user_list2html(get_booklist()),
+                           bookname_list=book_name2_html(get_bookname4_start_page()))
 
 
 @app.route("/t")
 def make_forT():
-    return_html, return_booklist = user_list2html(get_userlist()), user_list2html(get_booklist())
-
-    return render_template("make_test_forT.html", select_send2=return_html, booklist=return_booklist)
+    return render_template("make_test_forT.html", select_send2=user_list2html(get_userlist()),
+                           booklist=user_list2html(get_booklist()),
+                           bookname_list=book_name2_html(get_bookname4_start_page()))
 
 
 @app.route("/return_test")
@@ -87,9 +109,13 @@ def user_handling():
 
     elif request.method == "POST":
         user_name = request.form["user_name"]
-        # formにスペースが会ったときにアンダーバー入れる処理があるといいかも。
+
+        for i in user_name:
+            if i == " ":
+                i = "_"
+
         try:
-            # SQLへのデータ登録
+
             register_user_list(user_name)
             return render_template("user_register.html", error_message="登録完了しました！")
 
@@ -110,10 +136,48 @@ def result_check():
                                                        request.form['test_date'], int(request.form[
                                                                                           'correct_rate'])
         return_table = check_result_SQL(user_id, which_book, test_date, correct_rate)
-        # 期間指定、本の指定、正解率の指定で絞りができるとなお良いと思う。
-        # ここを修正したら完成
+
         return render_template("result_check.html", select_user=return_html, booklist=return_booklist,
                                return_table=return_table)
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        if form.user_name.data == 'Kaito' and form.password.data == 'Shinomiya':
+            user = User(form.user_name.data)
+            login_user(user)
+            return redirect('/data_upload')
+        else:
+            return 'ログインに失敗しました'
+
+    return render_template("login.html", form=form)
+
+
+@app.route("/data_upload", methods=['GET', 'POST'])
+@login_required
+def data_upload():
+    if request.method == "GET":
+        return render_template("data_upload.html", result="")
+    else:
+        try:
+            book_name_en = request.form['booklist']
+            book_name_jp = request.form['bookname']
+            register_book_data(book_name_en, book_name_jp)
+            file = request.files['file']
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+            add_csvdata2MySQL("./uploads/" + file.filename, book_name_en)
+            return render_template("data_upload.html", result="登録完了")
+        except:
+            return render_template("data_upload.html", result="エラーが発生しました。もう一度やり直してください")
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+
+    return render_template("login.html")
 
 
 @app.route("/register_result", methods=["POST"])
@@ -132,7 +196,6 @@ def register():
         sel_or_bla = 's'
     else:
         sel_or_bla = 'b'
-
     correct_rate = int(score / number_of_quiz * 100)
 
     return_str = "「" + str(title) + "」のテストを行い正解率" + str(correct_rate) + "％でした。"

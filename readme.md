@@ -1,17 +1,19 @@
 # TangotestMaker
-https://tangotestmaker.herokuapp.com <br>
+https://tangotest-maker.com <br>
 実際に運営しているサイトのURLです。
 使い方などはURLの先から確認できます。
 
 This software is released under the MIT License, see LICENSE.txt.
 
 ソースコードなどは以下から確認できます。<br>
-https://github.com/KaitoShinomiya/Tangotest
+https://github.com/KaitoShinomiya/Tangotestmaker_sakura
 ## About
 本ウェブアプリは、単語テストを作成するサービスです。<br>
 パソコンからのアクセスでは塾講師向けの印刷用プリント、スマートフォンからのアクセスでは生徒向けの4択クイズウェブアプリを提供します。<br>
 利用者に合わせて最適な方法を提供しています。<br>
-
+.htaccessでスマホ用とパソコン用のアクセスの分離<br>
+スマホはReactAppを表示する、react hook用いてルーティング
+パソコンはこれまでと同様に。
 ### パソコンからの表示
 <img src="https://tangotestmaker.herokuapp.com/static/images/PC.PNG" width="700">
 
@@ -22,25 +24,20 @@ https://github.com/KaitoShinomiya/Tangotest
 
 ### サンプル
 実際に動いているサーバーのURLは以下の通りです↓。<br>
-https://tangotestmaker.herokuapp.com <br> 
-利用者が多い16時から22時は常時サーバー稼働、その他時間はサーバーがスリープ状態に入るときがあります(アクセスまで10秒から20秒かかることあり)。
+https://tangotest-maker.com <br>
 
 ## SET UP
-terminalでherokuの準備<br>
-管理のためのサーバアクセス時は、初回に以下の処理を行ってください。
-(管理端末とサーバとの連携のため)
-```Bash
-heroku login
-heroku remote add heroku "URL"
+index.cgiを設定することにより、さくらサーバー上で展開
+```python
+#!/home/user_name/.pyenv/versions/3.7.11/bin/python
+# -*- coding: utf-8 -*-
+import cgitb
+cgitb.enable()
 
-#もしbuildpackがなかったら(現状使ってないけどimportしてるからインストールしとかないとエラー出る)
-heroku buildpacks:add --index 1 heroku/python
-heroku buildpacks:add --index 1 https://github.com/KaitoShinomiya/wkhtmltopdf-buildpack.git
+from wsgiref.handlers import CGIHandler
+from app import app
 
-heroku commit -m "commit message"
-heroku push heroku master
-or
-heroku push heroku "local repositry":master 
+CGIHandler().run(app)
 ```
 
 ## データについて
@@ -61,39 +58,45 @@ heroku push heroku "local repositry":master
 ・よりモダンなUIデザインへの変更のため、フロントエンドをReactに変更。<br>
 ・利用者からのフィードバックを反映。<br>
 ①単語テストのデータ拡充<br>
-②過去のデータをサーバー管理。これまでの結果を確認することを可能にする。
+ターゲット1400に対応<br>
+<br>
 
 ## About API for smartphone
 
 smartphone向けのテストデータ受け渡し用にAPIを開放しています。
-Post先は/return_test_spです。
+Post先は/return_test_sp_dataです。
 レスポンスのJSONは以下の形で送信されます。
 
 ```js
-const quiz = {
-    1: {
-        question: 'information',
-        answers: ['情報', '作る', '食べ物', '走る'],
-        correct: '情報'
-    }, 2: {
-        question: 'eat',
-        answers: ['食べる', '作る', '走る', '遊ぶ'],
-        correct: '食べる'
-    }, 3: {
-        question: 'can',
-        answers: ['できる', 'すべき', 'しなければならない', 'できない'],
-        correct: 'できる'
-    }
-};
+const questions = [
+        {
+            questionText: 'information ?',
+            answerOptions: [
+                { answerText: 'New York', isCorrect: false },
+                { answerText: 'London', isCorrect: false },
+                { answerText: 'Paris', isCorrect: true },
+                { answerText: 'Dublin', isCorrect: false },
+            ],
+        },
+        {
+            questionText: 'Who is CEO of Tesla?',
+            answerOptions: [
+                { answerText: 'Jeff Bezos', isCorrect: false },
+                { answerText: 'Elon Musk', isCorrect: true },
+                { answerText: 'Bill Gates', isCorrect: false },
+                { answerText: 'Tony Stark', isCorrect: false },
+            ],
+        },
+    ];
 ```
 
 ## Next works
-・SQL用のサーバー(python)を書き換え<br>
-・フロントエンドの構築<br>
 ・JS拡充
+
 
 ## Future Vision
 ・自然言語処理を用い、類似度の高いものを中心に出題。<br>
 →意味の似ている類似度の高い単語を中心に出題。<br>
 
-・合成音声を使ったリスニング機能
+・合成音声を使ったリスニング機能<br>
+・よく間違える問題などを中心に出題する<br>
