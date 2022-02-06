@@ -11,7 +11,9 @@ https://github.com/KaitoShinomiya/Tangotestmaker_sakura
 本ウェブアプリは、単語テストを作成するサービスです。<br>
 パソコンからのアクセスでは塾講師向けの印刷用プリント、スマートフォンからのアクセスでは生徒向けの4択クイズウェブアプリを提供します。<br>
 利用者に合わせて最適な方法を提供しています。<br>
-
+.htaccessでスマホ用とパソコン用のアクセスの分離<br>
+スマホはReactAppを表示する、react hook用いてルーティング
+パソコンはこれまでと同様に。
 ### パソコンからの表示
 <img src="https://tangotestmaker.herokuapp.com/static/images/PC.PNG" width="700">
 
@@ -66,21 +68,26 @@ Post先は/return_test_sp_dataです。
 レスポンスのJSONは以下の形で送信されます。
 
 ```js
-const quiz = {
-    1: {
-        question: 'information',
-        answers: ['情報', '作る', '食べ物', '走る'],
-        correct: '情報'
-    }, 2: {
-        question: 'eat',
-        answers: ['食べる', '作る', '走る', '遊ぶ'],
-        correct: '食べる'
-    }, 3: {
-        question: 'can',
-        answers: ['できる', 'すべき', 'しなければならない', 'できない'],
-        correct: 'できる'
-    }
-};
+const questions = [
+        {
+            questionText: 'information ?',
+            answerOptions: [
+                { answerText: 'New York', isCorrect: false },
+                { answerText: 'London', isCorrect: false },
+                { answerText: 'Paris', isCorrect: true },
+                { answerText: 'Dublin', isCorrect: false },
+            ],
+        },
+        {
+            questionText: 'Who is CEO of Tesla?',
+            answerOptions: [
+                { answerText: 'Jeff Bezos', isCorrect: false },
+                { answerText: 'Elon Musk', isCorrect: true },
+                { answerText: 'Bill Gates', isCorrect: false },
+                { answerText: 'Tony Stark', isCorrect: false },
+            ],
+        },
+    ];
 ```
 
 ## Next works
