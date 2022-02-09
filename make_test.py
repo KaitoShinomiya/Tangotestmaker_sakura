@@ -51,6 +51,7 @@ def drop_en_or_jp(selected_list, which_lang):
 
 
 def select_from_4(selected_list, original_list, origin_df_len, which_lang):
+    # 　[('produce', 'を生産する'), ('include', 'を含む'), ]
     answer_lang_row = 1
     if which_lang == 1:  # when japanse
         selected_list_tmp = []
@@ -59,21 +60,41 @@ def select_from_4(selected_list, original_list, origin_df_len, which_lang):
             selected_list_tmp.append(value_taple)
         selected_list = selected_list_tmp
         answer_lang_row = 0
-    quiz_dict = {}
-    quiz_number = 1
+
+    quiz_dict = []
+    quiz_number = 0
     for i in selected_list:
-        answer_list = [i[1]]
+
+        answer_list = []
+        # answer_list = [i[1]]
+        answer_list.append({'answerText': i[1], 'isCorrect': True})
         for j in range(0, 3):
             get_value_key = random.randint(0, origin_df_len - 1)
-            answer_list.append(original_list[get_value_key][answer_lang_row])
-        random.shuffle(answer_list)
-        quiz_dict[quiz_number] = {'question': i[0], 'answers': answer_list, 'correct': i[1]}
+            answer_list.append({'answerText': original_list[get_value_key][answer_lang_row], 'isCorrect': False})
+
+            random.shuffle(answer_list)
+            quiz_dict[quiz_number] = {'questionText': i[0], 'answerOption': answer_list, 'correct': i[1]}
         quiz_number = quiz_number + 1
-    # quiz = {
-    #     1: {
-    #         question: 'information',
-    #         answers: ['情報', '作る', '食べ物', '走る'],
-    #         correct: '情報'
-    #     }
-    # };
-    return quiz_dict
+
+        #         {1:{
+        #             questionText: 'information',
+        #             answerOptions: [
+        #                 {answerText: 'New York', isCorrect: false},
+        #                 {answerText: 'London', isCorrect: false},
+        #                 {answerText: 'Paris', isCorrect: true},
+        #                 {answerText: 'Dublin', isCorrect: false},
+        #             ],
+        #             correct: "Paris"
+        #         },
+        #         2:{
+        #             questionText: 'Tesla?',
+        #             answerOptions: [
+        #                 {answerText: 'Jeff Bezos', isCorrect: false},
+        #                 {answerText: 'Elon Musk', isCorrect: true},
+        #                 {answerText: 'Bill Gates', isCorrect: false},
+        #                 {answerText: 'Tony Stark', isCorrect: false},
+        #             ],
+        #             correct: "Elon Musk"
+        #         }
+        #    }
+        return quiz_dict

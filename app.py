@@ -79,7 +79,7 @@ def sp_return_page():
     test_dict = make_test(original_df, start, end, how_many, which_lang, is_random, select_or_not)
     return_json = json.dumps(test_dict, ensure_ascii=False)
     detail_str = test_label(bookname_taple[1], start, end, how_many)
-
+    print(test_dict)
     return render_template("sp_quiz.html", js_code=return_json, test_detail=detail_str, user_id=user_id)
 
 
