@@ -23,13 +23,20 @@ def make_test(original_list, start, end, how_many, which_lang, is_random, is_sel
     return test_df
 
 
-def random_select(selected_list, start, end, how_many):
+def random_select(selected_list, start, end, how_many): #300-1 400 50
     random_list = range(start, end)
     random_number = random.sample(random_list, how_many)
     random_selected_list = []
     for j in range(0, how_many):  # 出題したい個数
-        random_selected_list.append(selected_list[random_number[j]])
+        print(selected_list)
+        print(random_number)
+        print(j)
+        each_list = selected_list[random_number[j] - start]
+        print(each_list)
+        random_selected_list.append(each_list)
 
+    print(random_selected_list)
+    print(len(random_selected_list))
     return random_selected_list
 
 

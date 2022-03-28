@@ -90,6 +90,25 @@ const questions = [
     ];
 ```
 
+##mysql_db.py
+local試験用ではコネクトの関数はこちらに設定
+```python
+def connet_MySQL(is_user=False) -> object:
+    if is_user == False:
+        database_name = "tangodata"
+    else:
+        database_name = "tangouser"
+    conn = mysql.connector.connect(
+        host='localhost',
+        port='3306',
+        user='root',
+        password='Kykk4115',
+        database=database_name
+    )
+    cur = conn.cursor()
+    return conn, cur
+```
+
 ## Next works
 ・JS拡充
 

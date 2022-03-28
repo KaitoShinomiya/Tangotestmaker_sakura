@@ -210,3 +210,6 @@ def register():
         send_line_notify(return_str)
 
     return '完了', 200
+
+
+

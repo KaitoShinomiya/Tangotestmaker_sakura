@@ -2,7 +2,6 @@ import mysql.connector
 import datetime
 import csv
 
-
 def connet_MySQL(is_user=False) -> object:
     if is_user == False:
         database_name = "kaitoshinomiya_tangotest_data"
