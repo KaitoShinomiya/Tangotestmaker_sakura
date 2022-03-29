@@ -1,7 +1,7 @@
 # TangotestMaker
 https://tangotest-maker.com <br>
 実際に運営しているサイトのURLです。
-使い方などはURLの先から確認できます。
+使い方はURLの先から確認できます。
 
 This software is released under the MIT License, see LICENSE.txt.
 
@@ -15,21 +15,21 @@ https://github.com/KaitoShinomiya/Tangotestmaker_sakura
 スマホはReactAppを表示する、react hook用いてルーティング
 パソコンはこれまでと同様に。
 ### パソコンからの表示
-<img src="https://tangotestmaker.herokuapp.com/static/images/PC.PNG" width="700">
+<img src="https://www.tangotest-maker.com/static/images/PC.PNG" width="700">
 
 ### スマートフォンからの表示
-<img src="https://tangotestmaker.herokuapp.com/static/images/SP.PNG" width="300">
+<img src="https://www.tangotest-maker.com/static/images/SP.PNG" width="300">
 
 <br>
 
 ### サンプル
 実際に動いているサーバーのURLは以下の通りです↓。<br>
-https://tangotest-maker.com <br>
+https://www.tangotest-maker.com <br>
 
 ## SET UP
-index.cgiを設定することにより、さくらサーバー上で展開
+index.cgiを設定することにより、Xserver上での展開
 ```python
-#!/home/user_name/.pyenv/versions/3.7.11/bin/python
+#!/home/user_name/.pyenv/versions/3.7.11/bin/python　#pythonの仮想環境のパス指定
 # -*- coding: utf-8 -*-
 import cgitb
 cgitb.enable()
@@ -91,28 +91,21 @@ const questions = [
 ```
 
 ##mysql_db.py
-local試験用ではコネクトの関数はこちらに設定
-```python
-def connet_MySQL(is_user=False) -> object:
-    if is_user == False:
-        database_name = "tangodata"
-    else:
-        database_name = "tangouser"
-    conn = mysql.connector.connect(
-        host='localhost',
-        port='3306',
-        user='root',
-        password='Kykk4115',
-        database=database_name
-    )
-    cur = conn.cursor()
-    return conn, cur
+sql_info.jsonでSQLの接続情報を管理。Git上にSql_info_sample.jsonがあるのでそれを参考に環境に準じたアクセス情報に変更する必要あり。
 ```
-ここに関してはJsonで各要素を持ったものをそれぞれの環境に合わせて設定する。
-→すぐに実装する。
+{
+  "host": "hostname",
+  "port": "port_num",
+  "user": "user_name",
+  "password": "pass_for_sql",
+  "database_data": "tangodata_name",
+  "database_user": "tangouser_name"
+}
+```
 
 ## Next works
-・JS拡充
+・Reactへの変更
+
 
 
 ## Future Vision
