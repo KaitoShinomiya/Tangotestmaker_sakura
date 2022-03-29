@@ -108,6 +108,8 @@ def connet_MySQL(is_user=False) -> object:
     cur = conn.cursor()
     return conn, cur
 ```
+ここに関してはJsonで各要素を持ったものをそれぞれの環境に合わせて設定する。
+→すぐに実装する。
 
 ## Next works
 ・JS拡充

@@ -1,17 +1,21 @@
 import mysql.connector
 import datetime
 import csv
+import json
+
 
 def connet_MySQL(is_user=False) -> object:
+    sql_json = open('./sql_info.json', 'r')
+    json_load = json.load(sql_json)
     if is_user == False:
-        database_name = "kaitoshinomiya_tangotest_data"
+        database_name = json_load["database_data"]
     else:
-        database_name = "kaitoshinomiya_tangotest_user"
+        database_name = json_load["database_user"]
     conn = mysql.connector.connect(
-        host='mysql57.kaitoshinomiya.sakura.ne.jp',
-        port='3306',
-        user='kaitoshinomiya',
-        password='Azbi5645',
+        host=json_load["host"],
+        port=json_load["port"],
+        user=json_load["user"],
+        password=json_load["password"],
         database=database_name
     )
     cur = conn.cursor()
