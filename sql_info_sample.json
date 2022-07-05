@@ -2,7 +2,7 @@
   "host": "localhost",
   "port": "3306",
   "user": "root",
-  "password": "Kykk4115",
-  "database_data": "tangodata",
-  "database_user": "tangouser"
+  "password": "password",
+  "database_data": "data DB name",
+  "database_user": "user DB name"
 }

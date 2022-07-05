@@ -1,5 +1,5 @@
 # TangotestMaker
-https://tangotest-maker.com <br>
+https://tangotest-maker.com (現在、サーバ載せ替えのために停止中)<br>
 実際に運営しているサイトのURLです。
 使い方はURLの先から確認できます。
 
@@ -7,13 +7,25 @@ This software is released under the MIT License, see LICENSE.txt.
 
 ソースコードなどは以下から確認できます。<br>
 https://github.com/KaitoShinomiya/Tangotestmaker_sakura
+
+## background
+私自身、これまで約3年半、個別指導塾で英語の塾講師をしてきました(大学受験・高校受験・英検やTOEIC等の資格試験)
+その中で感じた課題から本ウェブアプリケーションの開発・運用を行っています。<br>
+生徒に授業時で行ってもらう単語テストは基本的に塾講師が手作りで作成しており、基本的に授業時間の事前に自宅などで準備をしなくてはいけません。<br>
+また一部単語帳は有志がエクセルなどでテストプリントを作成してくださり、公開しておりますが、2020年度に大学入試センター試験(センター試験)が終了し、2021年度より大学入学共通テスト(共通テスト)に切り替わったために、単語帳すべてが改定される事態となり、そのようなプリントも使えなくなってしまいました。<br>
+これらの状況から、塾講師が手間をかけることなく、単語テストを行える状況を作り出すため、本アプリケーションの開発をはじめました。
+
 ## About
 本ウェブアプリは、単語テストを作成するサービスです。<br>
 パソコンからのアクセスでは塾講師向けの印刷用プリント、スマートフォンからのアクセスでは生徒向けの4択クイズウェブアプリを提供します。<br>
+スマートフォンで行われたデータはサーバ側に送信され、いつでも結果を確認できる仕様としております。
 利用者に合わせて最適な方法を提供しています。<br>
-.htaccessでスマホ用とパソコン用のアクセスの分離<br>
-スマホはReactAppを表示する、react hook用いてルーティング
-パソコンはこれまでと同様に。
+使用技術はHTML+CSS+JavaScript,python(flask),DBはMySQLです。<br>
+これまではXserver上での展開、現在はさくらインターネットのVPSサーバに載せ替えを行っております。<r>
+現在スマートフォン用の4択テストをReact実装を行っているため、バックエンドをpython(fastapi)に書き換えを行っております。
+
+
+
 ### パソコンからの表示
 <img src="https://www.tangotest-maker.com/static/images/PC.PNG" width="700">
 
@@ -24,7 +36,7 @@ https://github.com/KaitoShinomiya/Tangotestmaker_sakura
 
 ### サンプル
 実際に動いているサーバーのURLは以下の通りです↓。<br>
-https://www.tangotest-maker.com <br>
+https://www.tangotest-maker.com 現在停止中<br>
 
 ## SET UP
 index.cgiを設定することにより、Xserver上での展開
@@ -64,27 +76,28 @@ CGIHandler().run(app)
 ## About API for smartphone
 
 smartphone向けのテストデータ受け渡し用にAPIを開放しています。
-Post先は/return_test_sp_dataです。
+Post先は/return_test_sp_dataです。(現在動いていません。) 
+
 レスポンスのJSONは以下の形で送信されます。
 
 ```js
 const questions = [
         {
-            questionText: 'information ?',
+            questionText: 'information',
             answerOptions: [
-                { answerText: 'New York', isCorrect: false },
-                { answerText: 'London', isCorrect: false },
-                { answerText: 'Paris', isCorrect: true },
-                { answerText: 'Dublin', isCorrect: false },
+                { answerText: '足跡', isCorrect: false },
+                { answerText: 'おいしい', isCorrect: false },
+                { answerText: '情報', isCorrect: true },
+                { answerText: '掛け算', isCorrect: false },
             ],
         },
         {
-            questionText: 'Who is CEO of Tesla?',
+            questionText: 'car',
             answerOptions: [
-                { answerText: 'Jeff Bezos', isCorrect: false },
-                { answerText: 'Elon Musk', isCorrect: true },
-                { answerText: 'Bill Gates', isCorrect: false },
-                { answerText: 'Tony Stark', isCorrect: false },
+                { answerText: '電車', isCorrect: false },
+                { answerText: '車', isCorrect: true },
+                { answerText: '飛行機', isCorrect: false },
+                { answerText: '船', isCorrect: false },
             ],
         },
     ];
@@ -98,8 +111,8 @@ sql_info.jsonでSQLの接続情報を管理。Git上にSql_info_sample.jsonが�
   "port": "port_num",
   "user": "user_name",
   "password": "pass_for_sql",
-  "database_data": "tangodata_name",
-  "database_user": "tangouser_name"
+  "database_data": "tangoDB_name",
+  "database_user": "tangoUser_name"
 }
 ```
 

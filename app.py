@@ -91,6 +91,7 @@ def make_qr():
     request_str = str(request)
     request_str = request_str.replace('<Request ', '')
     request_str = request_str.replace('[GET]>', '')
+
     request_str1 = request_str.replace('/return_qr', '/return_test_sp')
 
     QR_FILE_NAME = './static/images/qrcode.png'
