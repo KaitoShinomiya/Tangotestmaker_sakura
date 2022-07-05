@@ -5,14 +5,14 @@ import csv
 
 def connet_MySQL(is_user=False) -> object:
     if is_user == False:
-        database_name = "kaitoshinomiya_tangotest_data"
+        database_name = ""
     else:
-        database_name = "kaitoshinomiya_tangotest_user"
+        database_name = ""
     conn = mysql.connector.connect(
-        host='mysql57.kaitoshinomiya.sakura.ne.jp',
-        port='3306',
-        user='kaitoshinomiya',
-        password='Azbi5645',
+        host='',
+        port='',
+        user='',
+        password='',
         database=database_name
     )
     cur = conn.cursor()
